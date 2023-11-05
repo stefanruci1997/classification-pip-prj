@@ -1,17 +1,28 @@
 [tool.kedro]
-package_name = "classification_pip_prj"
-project_name = "classification_pip_prj"
+package_name = "classification_p"
+project_name = "classification_p"
 kedro_init_version = "0.18.14"
-
-[tool.isort]
-profile = "black"
 
 [tool.pytest.ini_options]
 addopts = """
 --cov-report term-missing \
---cov src/classification_pip_prj -ra"""
+--cov src/classification_p -ra"""
 
 [tool.coverage.report]
 fail_under = 0
 show_missing = true
 exclude_lines = ["pragma: no cover", "raise NotImplementedError"]
+
+[tool.ruff]
+line-length = 88
+show-fixes = true
+select = [
+    "F",   # Pyflakes
+    "W",   # pycodestyle
+    "E",   # pycodestyle
+    "I",   # isort
+    "UP",  # pyupgrade
+    "PL",  # Pylint
+    "T201", # Print Statement
+]
+ignore = ["E501"]  # Black takes care of line-too-long

@@ -1,7 +1,0 @@
-# Here you can define all your data sets by using simple YAML syntax.
-#
-# Documentation for this file format can be found in "The Data Catalog"
-# Link: https://docs.kedro.org/en/stable/data/data_catalog.html
-external_sources_file_path: data/01_raw/external_sources.csv
-internal_data_file_path: data/01_raw/internal_data.csv
-save_output_parquet_path: data/01_raw
