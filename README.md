@@ -24,7 +24,16 @@ To install them, run:
 ```bash
 pip install -r src/requirements.txt
 ```
+## Dowmload data 
 
+
+```bash
+wget https://storage.googleapis.com/bdt-spark-store/external_sources.csv 
+```
+
+```bash
+wget https://storage.googleapis.com/bdt-spark-store/internal_data.csv
+```
 ## How to run your Kedro pipeline
 
 You can run your Kedro project with:
