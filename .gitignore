@@ -150,3 +150,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+external_sources.csv
+internal_data.csv
