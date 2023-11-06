@@ -5,21 +5,15 @@ generated using Kedro 0.18.14
 
 from kedro.pipeline import Pipeline, node, pipeline
 
-from .nodes import save_model, train_model, preprocess_data, load_data, init_spark
+from .nodes import save_model, train_model, preprocess_data, load_data
 
 
 def create_pipeline(**kwargs) -> Pipeline:
     return pipeline(
         [
             node(
-                func=init_spark,
-                inputs=None,
-                outputs="spark",
-                name="init_spark",
-            ),
-            node(
                 func=load_data,
-                inputs=["spark","external_sources_file_path", "internal_data_file_path"],
+                inputs=["external_sources_file_path", "internal_data_file_path"],
                 outputs="df_full",
                 name="load_data_node",
             ),
@@ -37,7 +31,7 @@ def create_pipeline(**kwargs) -> Pipeline:
             ),
             node(
                 func=save_model,
-                inputs=["rf_model", "save_output_parquet_path"],
+                inputs=["rf_model"],
                 outputs=None,
                 name="save_model_node",
             ),

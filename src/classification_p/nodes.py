@@ -2,22 +2,24 @@
 This is a boilerplate pipeline 'classification_pipeline'
 generated using Kedro 0.18.14
 """
-
+from kedro.framework.context import context
 from pyspark.ml.feature import VectorAssembler, StandardScaler, StringIndexer
 from pyspark.ml.classification import RandomForestClassifier
 from pyspark.ml.evaluation import MulticlassClassificationEvaluator
 from pyspark.sql import SparkSession
 
 
-def init_spark():
+def load_data1(internal_data_file_path, external_sources_file_path):
     spark = SparkSession.builder.appName("PySparkClassification").getOrCreate()
-    return spark
-
-
-def load_data(spark, internal_data_file_path,external_sources_file_path):
     df_data = spark.read.csv(internal_data_file_path, header=True, inferSchema=True)
     df_ext = spark.read.csv(external_sources_file_path, header=True, inferSchema=True)
     df_full = df_data.join(df_ext, on='SK_ID_CURR', how='inner')
+    return df_full
+
+
+def load_data(internal_data_file_path, external_sources_file_path):
+    spark = SparkSession.builder.appName("PySparkClassification").getOrCreate()
+    df_full = internal_data_file_path.join(external_sources_file_path, on='SK_ID_CURR', how='inner')
     return df_full
 
 
@@ -62,9 +64,9 @@ def train_model(df_cleaned):
     predictions = rf_model.transform(test)
     evaluator = MulticlassClassificationEvaluator(labelCol="TARGET", metricName="accuracy")
     accuracy = evaluator.evaluate(predictions)
-
     return rf_model, accuracy
 
 
-def save_model(rf_model, path):
-    rf_model.write().overwrite().parquet(path)
+def save_model(rf_model):
+    data_filepath = context.params["my_data_filepath"]
+    rf_model.write().overwrite().parquet(data_filepath)
